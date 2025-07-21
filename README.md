@@ -2,7 +2,21 @@
 
 <img width="1024" height="1024" alt="octopus" src="https://github.com/user-attachments/assets/f9b618ce-20a7-4393-b30d-6e54ec1b8e51" />
 
-Octopus یک ابزار سبک و ساده برای اجرای نسخه‌های مختلف PHP در ویندوز است. این پروژه به کمک VBScript و Batch ساخته شده و امکان اجرای سرور محلی PHP و ابزار phpMyAdmin را تنها با چند کلیک فراهم می‌کند.
+**Octopus** یک ابزار سبک و ساده برای اجرای نسخه‌های مختلف PHP در ویندوز است. این پروژه با استفاده از VBScript و Batch ساخته شده و امکان اجرای سرور محلی PHP و phpMyAdmin را تنها با چند کلیک فراهم می‌کند.
+
+---
+
+⚠️ **هشدار مهم**  
+Octopus به تنهایی پایگاه‌داده نصب نمی‌کند. اگر MySQL یا MariaDB روی سیستم شما نصب نیست:
+
+➡️ باید ابتدا نسخه **ZIP** از MySQL را دانلود و اکسترکت کرده و در پوشه `mysql/` قرار دهید.  
+لینک دانلود رسمی: [https://dev.mysql.com/downloads/mysql](https://dev.mysql.com/downloads/mysql)
+
+❌ این ابزار از Apache پشتیبانی نمی‌کند. اگر برنامه‌ی PHP شما نیاز به Apache یا `.htaccess` دارد، از XAMPP یا Laragon استفاده کنید.
+
+✅ این برنامه مناسب پروژه‌هایی است که با `PHP CLI` یا ابزارهای سبک مثل `phpMyAdmin` کار می‌کنند.
+
+---
 
 ## 📦 ساختار پروژه
 
@@ -42,6 +56,7 @@ Octopus یک ابزار سبک و ساده برای اجرای نسخه‌های
 ## 🛠️ نیازمندی‌ها
 
 - سیستم‌عامل: ویندوز (7 به بالا)
+-  MySQL ZIP اگر نصب ندارید
 - فایل‌های PHP ( ورژن های مختلف )
 - Windows Script Host (فعال به‌صورت پیش‌فرض در ویندوز)
 
@@ -49,7 +64,11 @@ Octopus یک ابزار سبک و ساده برای اجرای نسخه‌های
 
 - برای جلوگیری از خطا، فقط نسخه‌های NTS (بدون Thread Safety) را استفاده کنید.
 - برای اجرای صحیح phpMyAdmin، مطمئن شوید ext‌های مربوط به mysqli در فایل `php.ini` فعال شده باشد.
-- در مسیر phpMyAdmin فایل index.php  را اجرا کنید .
+- `mysqli` و `pdo_mysql` باید در `php.ini` فعال باشند.
+- برای اجرای phpMyAdmin از `phpMyAdmin/index.php` استفاده کنید.
+- در صورت عدم وجود پایگاه‌داده، فایل `mysqld.exe` اجرا نخواهد شد ❗
+
+---
 
 ## 📌 مثال برای اجرای دستی (بدون رابط گرافیکی)
 
@@ -66,68 +85,90 @@ server-launcher.bat
 
 
 
-
-# 🐙 Octopus - A Simple PHP Server Launcher with GUI
+# 🐙 Octopus - Lightweight PHP Server Launcher with GUI
 
 <img width="1024" height="1024" alt="octopus" src="https://github.com/user-attachments/assets/f9b618ce-20a7-4393-b30d-6e54ec1b8e51" />
 
-**Octopus** is a lightweight and easy-to-use tool for running different versions of PHP on Windows. Built with VBScript and Batch, it allows you to launch a local PHP server and phpMyAdmin with just a few clicks.
+**Octopus** is a lightweight and portable launcher that allows you to easily run different versions of PHP on Windows. Built using VBScript and Batch, it offers a simple GUI to launch PHP CLI and tools like **phpMyAdmin** with just a few clicks.
 
-## 📦 Project Structure
+---
 
-📁 octopus/
-├── php-8.2.0-nts-Win32-vs16-x64/ ← PHP version in use
-├── phpMyAdmin/ ← phpMyAdmin folder for database management
+## ⚠️ Important Notice
+
+- **Octopus does not include MySQL by default.**  
+  👉 You need to manually download the **ZIP version** of MySQL from the official website and place it inside the `/mysql` folder:  
+  [https://dev.mysql.com/downloads/mysql](https://dev.mysql.com/downloads/mysql)
+
+- ❌ Apache-based apps and `.htaccess` files are **not supported**.  
+- ✅ Only CLI PHP scripts and tools like **phpMyAdmin** are supported.
+
+---
+
+## 📁 Project Structure
+```
+octopus/
+├── php-8.2.0-nts-Win32-vs16-x64/ ← Active PHP version folder
+├── phpMyAdmin/ ← phpMyAdmin for database management
 ├── index.php ← Test file
 ├── index.html ← Default landing page
-├── octopus.vbs ← GUI interface for selecting PHP version and port
-├── run.bat ← Manually launch the default version
-├── server-launcher.bat ← Main script to launch the server
+├── octopus.vbs ← GUI launcher
+├── run.bat ← Manual launcher (default version)
+├── server-launcher.bat ← Main script to start PHP server
 ├── v.php ← Displays PHP info
 └── README.md ← This file
 
+```
+---
 
 ## 🚀 How to Use
 
-1. Run the `octopus.vbs` file.
+1. Double-click `octopus.vbs`.
 2. In the pop-up window:
-   - Select a PHP version from the list (if you have multiple versions).
-   - Enter your desired port (e.g., 8000).
-   - Press **Enter (OK)**.
-3. Your default browser will open automatically, and the local server will start.
+   - Select a PHP version from the list.
+   - Enter the desired port (e.g., `8000`).
+   - Click **OK**.
+3. Your default browser will launch the local server automatically.
+
+---
 
 ## 🔄 Adding a New PHP Version
 
-To add a new PHP version:
-
-1. Download your desired version from the official [php.net](https://windows.php.net/download) website.
+1. Download your desired version from [php.net](https://windows.php.net/download).
 2. Extract it into the root directory of the project, for example:
 
-```bat
 php-8.3.0-nts-Win32-vs16-x64/
-```
 
 
-4. Octopus will automatically detect the folder and show it in the GUI menu.
+3. Octopus will automatically detect the folder and display it in the GUI.
+
+---
 
 ## 🛠️ Requirements
 
-- OS: Windows (7 or later)
-- PHP files (any version)
-- Windows Script Host (enabled by default in Windows)
+- Windows 7 or newer  
+- PHP NTS (Non-Thread-Safe) builds  
+- MySQL (ZIP version if not installed)  
+- Windows Script Host (enabled by default)
+
+---
 
 ## 💡 Tips
 
-- To avoid issues, only use **NTS (Non-Thread-Safe)** versions of PHP.
-- To run phpMyAdmin correctly, make sure `mysqli` and related extensions are enabled in the `php.ini` file.
-- Navigate to the `phpMyAdmin` folder and run `index.php`.
+- Always use **NTS** builds of PHP for compatibility.
+- Enable `mysqli` and other necessary extensions in your `php.ini` for phpMyAdmin.
+- To use phpMyAdmin, navigate to the folder and run `index.php`.
 
-## 📌 Manual Execution (Without GUI)
+---
+
+## 🖥️ Manual Launch (Without GUI)
+
+You can also launch the default server version using:
 
 ```bat
 server-launcher.bat
 ```
-📚 License
-This project is open-source and free to use. Feel free to improve it or share it with your friends.
+## 📚 License
+This project is open-source and free to use. Feel free to modify, improve, or share it.
 
-With ❤️ from the Octopus Dev Team – Sajjad Eftekhari – [https://sajjadef.ir/]([url](https://sajjadef.ir/))
+Made with ❤️ by the Octopus Dev Team
+Sajjad Eftekhari – https://sajjadef.ir
